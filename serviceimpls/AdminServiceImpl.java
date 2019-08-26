@@ -3,14 +3,14 @@ package com.bitcamp.serviceimpls;
 import java.util.Random;
 
 import com.bitcamp.domains.AccountBean;
-import com.bitcamp.services.AccountService;
+import com.bitcamp.services.AdminService;
 
-public class AccountServiceImpl implements AccountService {
+public class AdminServiceImpl implements AdminService{
 
 	AccountBean[] accounts;
 	int count;
 	Random rd;
-	public AccountServiceImpl() {
+	public AdminServiceImpl() {
 		accounts = new AccountBean[10];
 		count = 0;
 		
@@ -27,20 +27,16 @@ public class AccountServiceImpl implements AccountService {
 				break;
 				
 			}
-			
 		}
 		acc.setAccNum(acnum);
 		acc.setMoney(money);
 		acc.setToday(now);
 		accounts[count] = acc;
 		count++;
-		
-		
-		
 	}
 
 	@Override
-	public String createAccountNum() {  // 랜덤4-랜4
+	public String createAccountNum() {
 		rd = new Random();
 		String acnum ="";
 		String num1 ="";
@@ -52,11 +48,12 @@ public class AccountServiceImpl implements AccountService {
 		}
 		System.out.println(num1 + num2);
 		return num1 + "-"+num2;
+		
 	}
 
 	@Override
 	public AccountBean[] findAll() {
-		AccountBean[] 
+		// TODO Auto-generated method stub
 		return null;
 	}
 
