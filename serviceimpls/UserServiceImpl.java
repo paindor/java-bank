@@ -6,10 +6,11 @@ import com.bitcamp.domains.MemberBean;
 import com.bitcamp.services.UserService;
 
 public class UserServiceImpl implements UserService{
-	MemberBean[] members;
+	
+	private MemberBean[] members;
 //	AdminBean[] admins;
 	
-	int count;
+	private int count;
 	//int countAdms;
 	
 	
@@ -19,6 +20,14 @@ public class UserServiceImpl implements UserService{
 		
 		
 		
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	@Override

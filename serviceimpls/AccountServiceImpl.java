@@ -1,5 +1,7 @@
 package com.bitcamp.serviceimpls;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import com.bitcamp.domains.AccountBean;
@@ -7,14 +9,22 @@ import com.bitcamp.services.AccountService;
 
 public class AccountServiceImpl implements AccountService {
 
-	AccountBean[] accounts;
-	int count;
-	Random rd;
+
+	private AccountBean[] accounts;
+	private int count;
+	private Random rd;
+	private SimpleDateFormat sdf;
+	private Date date;
 	public AccountServiceImpl() {
 		accounts = new AccountBean[10];
 		count = 0;
 		
 	}
+	public int getCount() {
+		return this.count;
+	}
+	
+	
 	@Override
 	public void createAccount(int money) {
 		AccountBean acc = new AccountBean();
@@ -27,20 +37,16 @@ public class AccountServiceImpl implements AccountService {
 				break;
 				
 			}
-			
 		}
 		acc.setAccNum(acnum);
 		acc.setMoney(money);
 		acc.setToday(now);
 		accounts[count] = acc;
 		count++;
-		
-		
-		
 	}
 
 	@Override
-	public String createAccountNum() {  // 랜덤4-랜4
+	public String createAccountNum() {
 		rd = new Random();
 		String acnum ="";
 		String num1 ="";
@@ -52,52 +58,110 @@ public class AccountServiceImpl implements AccountService {
 		}
 		System.out.println(num1 + num2);
 		return num1 + "-"+num2;
+		
 	}
 
 	@Override
 	public AccountBean[] findAll() {
-		AccountBean[] 
-		return null;
+		// TODO Auto-generated method stub
+		return accounts;
 	}
 
 	@Override
 	public AccountBean findByAccountNum(String accountNum) {
-		// TODO Auto-generated method stub
-		return null;
+		AccountBean result = new AccountBean();
+		for(int i =0 ; i< count; i++) {
+			if(accountNum.equals(accounts[i].getAccNum())){
+				result = accounts[i];
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public int countAccounts() {
 		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
 
 	@Override
 	public boolean existAccountNum(String accountNum) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		for(int i = 0 ;i < count ; i++) {
+			if(accountNum.equals(accounts[i].getAccNum())) {
+				result = true;
+				
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public String findDate() {
-		// TODO Auto-generated method stub
-		return null;
+		sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+		date = new Date();
+		String now = sdf.format(date);
+		
+		
+		
+		return now;
 	}
 
 	@Override
 	public void depositMoney(AccountBean param) {
-		// TODO Auto-generated method stub
+		if(this.existAccountNum(param.getAccNum())) {
+			for(int i = 0 ; i < count ;i++) {
+				if(param.getAccNum().equals(accounts[i].getAccNum())) {
+					int money = accounts[i].getMoney();
+					accounts[i].setMoney(money + param.getMoney());
+					break;
+				}
+			}
+		}
 		
 	}
 
 	@Override
 	public void withdrawMoney(AccountBean param) {
-		// TODO Auto-generated method stub
+		if(this.existAccountNum(param.getAccNum())) {
+			for(int i = 0 ; i < count; i++) {
+				if(param.getAccNum().equals(accounts[i].getAccNum())) {
+					if(param.getMoney() <= accounts[i].getMoney()) {
+						int money = accounts[i].getMoney();
+						accounts[i].setMoney(money - param.getMoney());
+						break;
+					}
+					break;
+					
+					
+				}
+			}
+		}
 		
 	}
 
 	@Override
 	public void deleteAccountNum(String accountNum) {
+		AccountBean[] temp = new AccountBean[count -1];
+		int index = 0;
+		for(int i = 0; i < count; i++) {
+			if(accountNum.equals(accounts[i].getAccNum())) {
+				accounts[i] = new AccountBean();
+				
+			}
+			else {
+				temp[index] = accounts[i];
+				index++;
+				
+			}
+			
+		}
+		count--;
+		for(int i = 0 ; i < count ; i++) {
+			accounts[i] = temp[i];
+		}
+		
+		
 		// TODO Auto-generated method stub
 		
 	}
